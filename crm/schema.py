@@ -364,10 +364,6 @@ class CreateOrder(graphene.Mutation):
             )
 
 class Query(graphene.ObjectType):
-    # Filtered Queris using DjangoFilterConnectionField
-    all_customers = DjangoFilterConnectionField(CustomerType)
-    all_products = DjangoFilterConnectionField(ProductType)
-    all_orders = DjangoFilterConnectionField(OrderType)
     # Custom filtered queries with ordering
     customers = graphene.List(
         CustomerType,
