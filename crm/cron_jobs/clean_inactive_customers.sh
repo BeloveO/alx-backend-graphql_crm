@@ -19,3 +19,5 @@ inactive_customers.delete()
 EOF
 print "Inactive customers cleaned up successfully."
 
+# log results to a file
+echo "$(date +"%Y-%m-%d %H:%M:%S") - Cleaned up inactive customers." >> /tmp/customer_cleanup_log.txt
