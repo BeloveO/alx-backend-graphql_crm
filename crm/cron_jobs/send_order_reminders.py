@@ -5,6 +5,8 @@
 from datetime import timedelta, datetime
 import requests
 import json
+from gql import gql, Client
+from gql.transport.requests import RequestsHTTPTransport
 
 
 # Graphql endpoint URL
@@ -31,20 +33,13 @@ def send_order_reminders():
     formatted_query = RECENT_ORDERS_QUERY % f"{seven_days_ago.isoformat()} to {datetime.now().isoformat()}"
 
     # initialize GraphQL client
+    transport = RequestsHTTPTransport(url=GRAPHQL_URL, verify=True, retries=3)
+    client = Client(transport=transport, fetch_schema_from_transport=True)
+    query = gql(formatted_query)
+
     try:
-        response = requests.post(
-            GRAPHQL_URL,
-            json={'query': formatted_query}
-        )
-        response.raise_for_status()
-        data = response.json()
-
-        # check for errors in the response
-        if 'errors' in data:
-            print("GraphQL errors:", data['errors'])
-            return
-
-        orders = data['data']['orders']
+        response = client.execute(query)
+        orders = response['data']['orders']
 
         # log reminders for each order with timestamp
         timestamp = datetime.now().isoformat()
