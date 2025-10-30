@@ -45,7 +45,7 @@ def generate_crm_report():
         )
 
         # Save report to a file
-        with open("/tmp/crm_report.txt", "a") as report_file:
+        with open("/tmp/crm_report_log.txt", "a") as report_file:
             report_file.write(report_content)
 
         print("CRM report generated successfully.")
