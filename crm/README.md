@@ -174,13 +174,3 @@ celery -A crm inspect active
 ```bash
 celery -A crm purge
 ```
-
-
-This README provides:
-- Clear, step-by-step installation instructions
-- Commands for different operating systems
-- Verification steps to ensure everything is working
-- Troubleshooting guidance
-- Information about scheduled tasks and how to monitor them
-
-The instructions assume the user is in the project root directory and has basic familiarity with command-line operations and Django.
