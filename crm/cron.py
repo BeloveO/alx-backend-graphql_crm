@@ -1,5 +1,7 @@
 from datetime import datetime
 import datetime
+from gql import gql, Client
+from gql.transport.requests import RequestsHTTPTransport
 
 
 # Logs a message CRM is alive to /tmp/crm_heartbeat_log.txt
