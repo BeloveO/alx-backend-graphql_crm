@@ -13,6 +13,7 @@ This guide will help you set up the CRM system with Celery for background tasks 
 ### 1. Install Redis
 
 **Ubuntu/Debian:**
+
 ```bash
 sudo apt update
 sudo apt install redis-server
@@ -21,6 +22,7 @@ sudo systemctl enable redis
 ```
 
 **macOS (using Homebrew):**
+
 ```bash
 brew install redis
 brew services start redis
@@ -89,6 +91,7 @@ This starts the Celery beat scheduler for periodic tasks.
 ```bash
 redis-cli ping
 ```
+
 Should return `PONG` if Redis is running correctly.
 
 ### 2. Test Celery Task
@@ -116,7 +119,8 @@ tail -f /tmp/crm_report_log.txt
 ```
 
 You should see entries like:
-```
+
+```bash
 2024-01-15 14:30:00 - Report: 150 customers, 450 orders, 12500.75 revenue
 ```
 
@@ -127,14 +131,17 @@ Check if Celery workers are processing tasks by monitoring the worker terminal o
 ## Common Issues
 
 ### Redis Connection Error
+
 - Ensure Redis server is running: `redis-cli ping`
 - Check if port 6379 is available
 
 ### Celery Worker Not Starting
+
 - Verify Django project structure has proper `celery.py` and `__init__.py` files
 - Check if all dependencies are installed
 
 ### No Logs Generated
+
 - Verify file permissions in `/tmp/` directory
 - Check if GraphQL endpoint is accessible at `http://localhost:8000/graphql`
 
@@ -161,16 +168,19 @@ brew services stop redis   # macOS
 ## Troubleshooting
 
 ### Check Celery Status
+
 ```bash
 celery -A crm status
 ```
 
 ### View Active Tasks
+
 ```bash
 celery -A crm inspect active
 ```
 
 ### Purge All Tasks
+
 ```bash
 celery -A crm purge
 ```
