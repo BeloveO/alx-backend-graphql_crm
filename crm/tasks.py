@@ -1,5 +1,6 @@
 import requests
 from celery import shared_task
+from datetime import datetime
 
 GRAPHQL_URL = "http://localhost:8000/graphql"
 
@@ -44,7 +45,7 @@ def generate_crm_report():
         )
 
         # Save report to a file
-        with open("/tmp/crm_report_log.txt", "w") as report_file:
+        with open("/tmp/crm_report.txt", "a") as report_file:
             report_file.write(report_content)
 
         print("CRM report generated successfully.")
