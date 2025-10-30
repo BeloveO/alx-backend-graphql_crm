@@ -3,11 +3,19 @@
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_NAME="$(basename "$(dirname "$(dirname "$SCRIPT_DIR")")")"
-TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
-DELETION_RESULT=""
-# log the result
-if [ "$DELETION_RESULT" -eq 0 ]; then
-    echo "[$TIMESTAMP] Successfully deleted inactive customers." >> /tmp/customer_cleanup_log.txt
-else
-    echo "[$TIMESTAMP] Failed to delete inactive customers." >> /tmp/customer_cleanup_log.txt
-fi
+
+TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S" --date="1 year ago")
+
+python3 manage.py shell << EOF
+from crm.models import Customer
+from django.utils import timezone
+
+threshold_date = timezone.now() - timezone.timedelta(days=365)
+inactive_customers = Customer.objects.filter(last_order_date__lt=threshold_date)
+# count the number of inactive customers
+print(f"Found {inactive_customers.count()} inactive customers to delete.")
+
+inactive_customers.delete()
+EOF
+print "Inactive customers cleaned up successfully."
+
